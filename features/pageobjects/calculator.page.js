@@ -7,12 +7,6 @@ class CalculatorPage{
     }
     
    //============ Your Details ==============//
-   get btnApplicationTypeSingle(){
-    return $('#application_type_single');
-   }
-   get btnApplicationTypeJoint(){
-    return $('#application_type_joint');
-   }
    get selectNumberOfDependents(){
        return $('select[title="Number of dependants"]');
    }
@@ -67,45 +61,40 @@ class CalculatorPage{
    //actions
     openCalculatorPage(url){
         browser.url(`https://www.anz.com.au/${url}`);
-        //console.log("browser launched");
-        //console.log("Page title:=",( $('head > title')).getText());
     }
-    
+    getYourDetailsSectionButtonByText = function(btnText){
+        const xpAthFortheButton = (btnText) => { 
+            return  `//label[contains(text(),"${btnText}")]/input`;
+        }
+        return $(`${xpAthFortheButton(btnText)}`);
+    }
     enterDetailsInBorrowingCalculator = async (table) => {       
         
         const tableRow = table.hashes();
-
-        for(const ele of tableRow ){
-            
-            if(ele.AppType === "Joint")
-                (await this.btnApplicationTypeJoint).click();          
-            else
-                (await this.btnApplicationTypeSingle).click();
         
-            (await this.selectNumberOfDependents).selectByVisibleText(ele.NumOfDependants);
-
-            if(ele.PropertyFor === "Residential investment")
-                (await this.btnBorrowTypeInvestment).click();
-            else
-                (await this.btnBorrowTypeHome).click();
-
-            (await this.inputAnnualIncomeBeforeTax).setValue(ele.AnnualIncomeBeforeTax);
+        for(const ele of tableRow ){
+                       
+            await this.getYourDetailsSectionButtonByText(ele.AppType).click();
+            (await this.selectNumberOfDependents).selectByVisibleText(ele.NumOfDependants);    
+            await this.getYourDetailsSectionButtonByText(ele.PropertyFor).click();                      
             
-            
+            (await this.inputAnnualIncomeBeforeTax).setValue(ele.AnnualIncomeBeforeTax);        
             (await this.inputAnnualOtherIncome).setValue(ele.AnnualOtherIncome);
+            
             (await this.inputMonthlyLivingExpenses).setValue(ele.MonthlyLivingExp);
             (await this.inputMonthlyHomeLoanRepayments).setValue(ele.MonthlyHomeLoanRepayments);
             (await this.inputMonthlyOtherLoanRepayments).setValue(ele.MonthlyOtherLoanRepayments);
             (await this.inputMonthlyOtherCommitments).setValue(ele.MonthlyOtherCommitments);
             (await this.inputTotalCreditCardLimits).setValue(ele.TotCreditCardLimits);
 
+            
         }
     
     }
     clickOnHowMuchICouldBorrowButton = async () => {
         (await this.btnBorrowCalculater).moveTo();
         (await this.btnBorrowCalculater).click();
-        console.log("calculator button clicked");
+        
     }
     clickOnStartOverButton = async () => {
         (await this.btnStartOver).click();

@@ -1,5 +1,8 @@
-//import generate from 'multiple-cucumber-html-reporter';
+import { removeSync } from 'fs-extra';
 import cucumberJson from 'wdio-cucumberjs-json-reporter';
+
+
+//const report = require('multiple-cucumber-html-reporter');
 
 export const config = {
     //
@@ -136,9 +139,13 @@ export const config = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     //reporters: ['spec','cucumberjs-json'],
-    reporters: ['spec','cucumberjs-json'],
+    reporters: ['spec',['cucumberjs-json', {
+                            jsonFolder: 'reporter/json/',language: 'en',
+                        },
+                    ],
+                ],
 
-    //
+    //default json path '.tmp/new/'
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
         // <string[]> (file/dir) require files before executing features
@@ -158,7 +165,7 @@ export const config = {
         // <boolean> fail if there are any undefined or pending steps
         strict: false,
         // <string> (expression) only execute the features or scenarios with tags matching the expression
-        tagExpression: '@regression or @sanity',
+        tagExpression: '@one or @two',
         // <number> timeout for step definitions
         timeout: 60000,
         // <boolean> Enable this config to treat undefined definitions as warnings.
@@ -178,9 +185,9 @@ export const config = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-     //onPrepare: function (config, capabilities) {
-     //   removeSync('.tmp/');
-     //},
+     onPrepare: function (config, capabilities) {
+        removeSync('reporter/json');
+     },
     /**
      * Gets executed before a worker process is spawned and can be used to initialise specific service
      * for that worker as well as modify runtime environments in an async fashion.
@@ -324,17 +331,8 @@ export const config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    onComplete: function(exitCode, config, capabilities, results) {
-        // Generate the report when it all tests are done
-        generate({
-            // Required
-            // This part needs to be the same path where you store the JSON files
-            // default = '.tmp/json/'
-            jsonDir: '.tmp/json/',
-            reportPath: '.tmp/report/',
-            // for more options see https://github.com/wswebcreation/multiple-cucumber-html-reporter#options
-        });
-    },
+    //onComplete: function(exitCode, config, capabilities, results) {     
+    //},
     /**
     * Gets executed when a refresh happens.
     * @param {String} oldSessionId session ID of the old session

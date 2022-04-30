@@ -1,19 +1,27 @@
-import { Given,When,Then, DataTable } from "@wdio/cucumber-framework";
+import { Given, When, Then, DataTable } from "@wdio/cucumber-framework";
 import CalculatorPage from "../pageobjects/calculator.page";
+import cucumberJson from "wdio-cucumberjs-json-reporter";
 
 Given(/^I am on the Borrowing Estimate Calculator page$/, async () => {
+  cucumberJson.attach(
+    "Launching browser and navigating to Borrowing Estimate Calculator Page"
+  );
 
-    CalculatorPage.openCalculatorPage("personal/home-loans/calculators-tools/much-borrow/");
+  CalculatorPage.openCalculatorPage(
+    "personal/home-loans/calculators-tools/much-borrow/"
+  );
 
-    //CalculatorPage.btnApplicationTypeSingle.waitForDisplayed({timeout:30000}); //,1000,false,"Home page not loaded within 30s"
-    //const AppTypeS = await CalculatorPage.btnApplicationTypeSingle.getAttribute('value').then((val) => {console.log(val);return val;});
-    //console.log("AppType:",AppTypeS);
+  cucumberJson.attach(
+    "Validating Borrowing Estimate Calculator page's existance"
+  );
 
-    expect(CalculatorPage.btnApplicationTypeSingle).toHaveAttribute('checked','true');
-  
-
+  expect(
+    CalculatorPage.getYourDetailsSectionButtonByText("Single")
+  ).toHaveAttribute("checked", "true");
 });
 
 When(/^I give below inputs$/, async (table) => {
-    await CalculatorPage.enterDetailsInBorrowingCalculator(table);
+  cucumberJson.attach("Giving inputs in the Borrowing Calculator page");
+
+  await CalculatorPage.enterDetailsInBorrowingCalculator(table);
 });

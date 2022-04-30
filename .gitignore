@@ -1,2 +1,3 @@
 node_modules
-.tmp
+reporter/json
+reporter/cucumber-html-report
