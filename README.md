@@ -18,7 +18,7 @@ This a bare minimum framework setup of WebdriverIO for TAE Assessment project
 ## Prerequisite:
 * npm - 8.6.0
 * node - 18.10.0
-* java - 18.0.1
+* Chrome
 
 ## Steps to Run:
 
@@ -47,7 +47,7 @@ This a bare minimum framework setup of WebdriverIO for TAE Assessment project
     ```
     > cd ~/workspace/<wdio-js_directory_name>
     > npm run test [This will run all tests under feature file]
-    > npm run test:one OR npm run test:one [This will run individual scenario]
+    > npm run test:one [ This will run individual scenario where '@one' tag has been used for scenario1 ]
     ```
     
  4. To generate report - 
@@ -57,6 +57,8 @@ This a bare minimum framework setup of WebdriverIO for TAE Assessment project
     > npm run generate-report:cucumber-html
     ```
     - HTML Reports will get generated after every run under ./reporter/cucumber-html-report folder
+
+**Note: This framework can be integrated with CI/CD pipeline using Jenkins (for e.g.)
  
 ## Author
 

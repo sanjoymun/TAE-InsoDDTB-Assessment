@@ -17,13 +17,5 @@ Then(/^I should see has a borrowing estimate of (.*)$/, async (amount) => {
     { timeout: 10000, timeoutMsg: "expected text is different after 10s" }
   );
   (await CalculatorPage.txtHomeLoanBorrowStaticText).scrollIntoView();
-  /*
-  const actualBorrowAmount = await CalculatorPage.txtHomeLoanBorrowAmount
-    .getText()
-    .then((val) => {
-      console.log(val);
-      return val;
-    });
-    */
   await expect(CalculatorPage.txtHomeLoanBorrowAmount).toHaveText(amount);
 });
